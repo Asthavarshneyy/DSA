@@ -1,0 +1,111 @@
+/*
+Problem Statement:
+You are given an N*M grid. Each cell (i,j) in the grid is either blocked, or empty. The rat can move from position (i,j), down or right on the grid.
+Initially rat is on the position (1,1). It wants to reach position (N,M). Find the rightmost path through which, rat can reach this position. A path is rightmost, if the rat is at position (i,j), it will always move to (i,j+1), if there exists a path from (i,j+1) to (N,M).
+
+Input Format
+First line contains 2 integers, N and M, denoting the rows and columns in the grid. Next N line contains. M characters each. An 'X' in position (i,j) denotes that the cell is blocked and ans 'O' denotes that the cell is empty.
+
+Constraints
+1<=N,M<=1000 GRID(i,j)='X' or 'O'
+
+Output Format
+If a solution exists: Print N lines, containing M integers each. A 1 at a position (i,j) denotes that the (i,j)th cell is covered in the path and a 0 denotes that the cell is not covered in the path.
+If solution doesn't exist, just print "-1".
+
+Sample Input
+5 4
+OXOO
+OOOX
+OOXO
+XOOO
+XXOO
+Sample Output
+1 0 0 0 
+1 1 0 0 
+0 1 0 0 
+0 1 1 1 
+0 0 0 1 */
+
+
+
+
+
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std; 
+
+bool path(int M, int N, char grid[][1000], int i,int j,int ans[][1000])
+{
+	//base case
+	/*for(int k=0;k<=N;k++)
+	{
+		for(int l=0;l<=M;l++)
+		{
+			cout<<ans[k][l]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<endl;*/
+
+	if(grid[i][j]=='X')
+	 return false;
+	
+	if(i==N && j==M)
+	{
+		ans[i][j]=1;
+		return true;
+	}
+	if(j>M || i>N)
+	 return false;
+	//recursive function
+	ans[i][j]=1;
+	bool r;
+	r=path(M, N, grid, i, j+1, ans);
+	if(r)
+	 return r;
+	r=path(M, N, grid, i+1, j, ans);
+	if(!r)
+	 ans[i][j]=0;
+	return r;
+	 
+}
+
+int main() {
+	int N, M;
+	cin>>N>>M;
+	char grid[1000][1000];
+	for(int i=0;i<N;i++)
+	 for(int j=0;j<M;j++)
+	  cin>>grid[i][j];
+	int ans[1000][1000];
+	for(int i=0;i<N; i++)
+	 for(int j=0;j<M;j++)
+	  ans[i][j]=0;
+	/*for(int i=0;i<N;i++)
+	{
+		for(int j=0;j<M;j++)
+		{
+			cout<<ans[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<endl;*/
+	bool r=path(M-1, N-1, grid, 0,0,ans);
+	if(!r)
+	 cout<<-1<<endl;
+	else 
+	{
+	 for(int i=0;i<N;i++)
+	{
+		for(int j=0;j<M;j++)
+		{
+			cout<<ans[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	}
+	 
+	return 0;
+}
