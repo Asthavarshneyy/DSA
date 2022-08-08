@@ -1,0 +1,103 @@
+/*
+Problem Statement:
+You are given an N*M grid. Each cell (i,j) in the grid is either blocked, or empty. The rat can move from a position towards left, right, up or down on the grid.
+Initially rat is on the position (1,1). It wants to reach position (N,M) where it's cheese is waiting for. There exits a unique path in the grid . Find that path and help the rat reach its cheese.
+
+Input Format
+First line contains 2 integers N and M denoting the rows and columns in the grid.
+Next N line contains M characters each. An 'X' in position (i,j) denotes that the cell is blocked and ans 'O' denotes that the cell is empty.
+
+Constraints
+1 <= N , M <= 10
+
+Output Format
+Print N lines, containing M integers each. A 1 at a position (i,j) denotes that the (i,j)th cell is covered in the path and a 0 denotes that the cell is not covered in the path.
+If a path does not exits then print "NO PATH FOUND"
+
+Sample Input
+5 4
+OXOO
+OOOX
+XOXO
+XOOX
+XXOO
+Sample Output
+1 0 0 0 
+1 1 0 0 
+0 1 0 0 
+0 1 1 0 
+0 0 1 1 */
+
+Solution: 
+#include<bits/stdc++.h>
+using namespace std;
+
+bool notsafe(char grid[][10], int ans[][10], int N, int M, int i, int j)
+{
+	//checking if the current cell is ok to go
+	if(i>=N || j>=M || i<0 || j<0 || grid[i][j]=='X' || ans[i][j]==1)
+	 return true;
+	return false;
+}
+
+void print(int ans[][10], int N, int M)
+{
+	//printing the correct path
+	for(int i=0;i<N;i++)
+	{
+		for(int j=0;j<M;j++)
+		  cout<<ans[i][j]<<" ";
+		cout<<endl;
+	}
+}
+
+bool path(char grid[][10], int ans[][10], int N, int M, int i, int j)
+{
+	//base case
+	if(i==N-1 && j==M-1)
+	{
+		ans[i][j]=1;
+		print(ans, N, M);
+		return true;
+	}
+	if(notsafe(grid, ans, N, M, i, j))
+	 return false;
+
+	//recursive function
+	//assuming rat is on the correct path
+	ans[i][j]=1;
+	//recursive calling in all the 4 directions
+	bool right, left, up, down;
+	right=path(grid, ans, N, M, i, j+1);
+	left=path(grid, ans, N, M, i, j-1);
+	up=path(grid, ans, N, M, i-1, j);
+	down=path(grid, ans, N, M, i+1, j);
+	//if rat can move in one of these directions then true
+	bool check=right||left||up||down;
+	//wrong assumption
+	if(!check)
+	 ans[i][j]=0;
+	return check;
+}
+
+int main() {
+	int N, M;
+	cin>>N>>M;
+
+	//grid 2d array
+	char grid[10][10];
+	for(int i=0;i<N;i++)
+	 for(int j=0;j<M;j++)
+	  cin>>grid[i][j];
+	
+	//ans 2d array
+	int ans[10][10];
+	for(int i=0;i<N;i++)
+	 for(int j=0;j<M;j++)
+	  ans[i][j]=0;
+	//calling the recursive function
+	bool val=path(grid, ans, N, M, 0, 0);
+	if(!val)
+	 cout<<"NO PATH FOUND"<<endl;
+	return 0;
+}
