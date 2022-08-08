@@ -1,0 +1,76 @@
+#include<bits/stdc++.h>
+using namespace std; 
+
+bool path(int M, int N, char grid[][1000], int i,int j,int ans[][1000])
+{
+	//base case
+	/*for(int k=0;k<=N;k++)
+	{
+		for(int l=0;l<=M;l++)
+		{
+			cout<<ans[k][l]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<endl;*/
+
+	if(grid[i][j]=='X')
+	 return false;
+	
+	if(i==N && j==M)
+	{
+		ans[i][j]=1;
+		return true;
+	}
+	if(j>M || i>N)
+	 return false;
+	//recursive function
+	ans[i][j]=1;
+	bool r;
+	r=path(M, N, grid, i, j+1, ans);
+	if(r)
+	 return r;
+	r=path(M, N, grid, i+1, j, ans);
+	if(!r)
+	 ans[i][j]=0;
+	return r;
+	 
+}
+
+int main() {
+	int N, M;
+	cin>>N>>M;
+	char grid[1000][1000];
+	for(int i=0;i<N;i++)
+	 for(int j=0;j<M;j++)
+	  cin>>grid[i][j];
+	int ans[1000][1000];
+	for(int i=0;i<N; i++)
+	 for(int j=0;j<M;j++)
+	  ans[i][j]=0;
+	/*for(int i=0;i<N;i++)
+	{
+		for(int j=0;j<M;j++)
+		{
+			cout<<ans[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<endl;*/
+	bool r=path(M-1, N-1, grid, 0,0,ans);
+	if(!r)
+	 cout<<-1<<endl;
+	else 
+	{
+	 for(int i=0;i<N;i++)
+	{
+		for(int j=0;j<M;j++)
+		{
+			cout<<ans[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	}
+	 
+	return 0;
+}
