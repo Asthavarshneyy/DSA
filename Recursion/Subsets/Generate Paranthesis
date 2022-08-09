@@ -1,0 +1,54 @@
+/* Problem statement:
+Given an integer 'n'. Print all the possible pairs of 'n' balanced parentheses.
+The output strings should be printed in the sorted order considering '(' has higher value than ')'.
+
+Input Format
+Single line containing an integral value 'n'.
+
+Constraints
+1<=n<=11
+
+Output Format
+Print the balanced parentheses strings with every possible solution on new line.
+
+Sample Input
+2
+Sample Output
+()() 
+(()) */
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std;
+
+void para(int N, vector <char> ans, int open, int close)
+{
+	//base case
+	if(ans.size()==2*N)
+	{
+		for(auto x: ans)
+		 cout<<x;
+		cout<<endl;
+		return;
+	}
+	//recursive function
+	if(open>close)
+	{
+		ans.push_back(')');
+		para(N, ans, open, close+1);
+		ans.pop_back();
+	}
+	if(ans.size()==0 || open<N)
+	{
+		ans.push_back('(');
+		para(N, ans, open+1, close);
+	}
+}
+
+int main() {
+	int N;
+	cin>>N;
+	vector <char> ans;
+	para(N, ans, 0,0);
+	return 0;
+}
