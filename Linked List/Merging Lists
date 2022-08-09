@@ -1,0 +1,136 @@
+/*Problem statement:
+Given 2 sorted linked lists , merge the two given sorted linked list and print the final Linked List.
+
+Input Format
+First Line contains T the number of test cases.
+For each test case :
+Line 1 : N1 the size of list 1
+Line 2 : N1 elements for list 1
+Line 3 : N2 the size of list 2
+Line 4 : N2 elements for list 2
+
+Constraints
+1 <= T <= 1000
+0<= N1, N2 <= 10^6
+-10^7 <= Ai <= 10^7
+
+Output Format
+For each testcase , print the node data of merged linked list.
+
+Sample Input
+1
+4
+1 3 5 7
+3
+2 4 6
+Sample Output
+1 2 3 4 5 6 7 
+Explanation
+The two lists after merging give the sorted output as [1,2,3,4,5,6,7] */
+
+
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std; 
+
+class Node
+{
+	public:
+	int data;
+	Node *next;
+	//constructor
+	Node(int data)
+	{
+		this->data=data;
+		next=NULL;
+	}
+};
+
+
+Node* merge(Node *head1, Node *head2)
+{
+	//merging till one of them points to null
+	Node *ptr1=head1;
+    Node *ptr2=head2;
+	Node *head=new Node(-1);
+	Node *tail=head;
+	while(ptr1!=NULL && ptr2!=NULL)
+	{
+		if((ptr1->data) < (ptr2->data))
+		{
+			tail->next=ptr1;
+			ptr1=ptr1->next;
+		}
+		else
+		{
+			tail->next=ptr2;
+			ptr2=ptr2->next;
+		}
+		tail=tail->next;
+	}
+	//till head1 points to null
+	while(ptr1!=NULL)
+	{
+		tail->next=ptr1;
+		ptr1=ptr1->next;
+		tail=tail->next;
+	}
+	//till head2 points to null
+	while(ptr2!=NULL)
+	{
+		tail->next=ptr2;
+		ptr2=ptr2->next;
+		tail=tail->next;
+	}
+	return head->next;
+}
+
+void print(Node *head)
+{
+	//printing the final ans
+	Node *temp=head; 
+	while(temp!=NULL)
+	{
+		cout<<temp->data<<" ";
+		temp=temp->next;
+	}
+	cout<<endl;
+}
+int main() {
+	//taking input
+	int T;
+	cin>>T;
+	while(T--)
+	{
+		int N1;
+	    cin>>N1;
+		//1st linkedlist
+		Node *head1=new Node(-1);
+		Node *tail1=head1;
+	    for(int i=0;i<N1;i++)
+	    {
+			int data;
+			cin>>data;
+			tail1->next=new Node(data);
+			tail1=tail1->next;
+		}
+	    int N2;
+		cin>>N2;
+		//2nd linkedlist
+	    Node *head2=new Node(-1);
+		Node *tail2=head2;
+	    for(int i=0;i<N2;i++)
+		{
+			int data;
+			cin>>data;
+			tail2->next=new Node(data);
+			tail2=tail2->next;
+		}
+		//calling the function to merge
+		Node *head= merge(head1->next, head2->next);
+		//printing the merged linkedlist
+		print(head);
+	}
+	return 0;
+}
