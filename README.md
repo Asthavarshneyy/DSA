@@ -6,4 +6,10 @@
  <ol>
   <li>Backtracking  
   <ol>
-   <li>Rat in a Maze  
+   <li>Rat in a Maze
+   <li> Rat chases its chesse 
+  </ol>
+ </ol>
+<li> Linked List Problems:
+<ol>
+ <li> Reversing the list
