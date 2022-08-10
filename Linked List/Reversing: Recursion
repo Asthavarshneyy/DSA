@@ -1,0 +1,81 @@
+/* Problem Statement:
+Reverse a linked list by changing the data of its nodes in a recursive manner
+
+Input Format
+N -> number of nodes N spaces separated numbers -> content of linked list
+
+Constraints
+None
+
+Output Format
+N space separated numbers -> content of reversed linked list
+
+Sample Input
+5
+10 20 30 40 50
+Sample Output
+50 40 30 20 10*/
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node
+{
+	public:
+	int data;
+	Node *next;
+	//constructor
+	Node(int data)
+	{
+		this->data=data;
+		next=NULL;
+	}
+};
+
+void reverse(Node *prev, Node *curr, Node *&head)
+{
+	//base case
+	if(curr==NULL)
+	{
+		head=prev;
+		return;
+	}
+	//recursive function
+	Node *temp=curr->next; //storing the next node as its address will vanish in the next step
+	curr->next=prev; //we pointed curr node to prev node so the next node vanishes
+	reverse(curr, temp, head); //recursive call
+}
+
+void print(Node *head)
+{
+	//pritning
+	Node *ptr=head;
+	while(ptr!=NULL)
+	{
+		cout<<ptr->data<<" ";
+		ptr=ptr->next;
+	}
+}
+
+int main() {
+	int N;
+	cin>>N;
+	//defining the linkedlist
+	Node *head=new Node(-1);
+	Node *tail=head;
+	//input of the list
+	for(int i=0;i<N;i++)
+	{
+		int data;
+		cin>>data;
+		tail->next=new Node(data);
+		tail=tail->next;
+	}
+	head=head->next;
+	//reversing the list
+	reverse(NULL, head, head);
+	//printing the reversed list
+	print(head);
+	return 0;
+}
