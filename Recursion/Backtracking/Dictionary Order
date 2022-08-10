@@ -1,0 +1,78 @@
+/*Problem Statement:
+Take as input str, a string. Write a recursive function which prints all the words possible by rearranging the characters of this string which are in dictionary order larger than the given string.
+The output strings must be lexicographically sorted.
+
+Input Format
+Single line input containing a string
+
+Constraints
+Length of string <= 10
+
+Output Format
+Display all the words which are in dictionary order larger than the string entered in a new line each. The output strings must be sorted.
+
+Sample Input
+cab
+
+Sample Output
+cba
+Explanation
+The possible permutations of string "cab" are "abc" , "acb" ,"bac" , "bca" , "cab" and "cba" . Only one of them is lexicographically greater than "cab". We only print "cba".*/
+
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std; 
+
+void rearrange(string str, int strt, int end, string ans, vector <string> &arr)
+{
+	//base case
+	//when we reach to the end of string s.t. no more swapping can take place-> stop and add the ans into the array
+	if(str[strt]=='\0')
+	{
+		arr.push_back(str);
+		return;
+	}
+	//recursive funtion
+	//fixing the indx that needs to be swaped
+	int indx=strt;
+	for(int i=strt;i<end;i++)
+	{
+		swap(str[indx], str[i]);
+		//recursion
+		rearrange(str,strt+1,end,ans,arr);
+	}
+}
+
+void print(vector <string> arr, string str)
+{
+	//sort the array
+	sort(arr.begin(), arr.end());
+	//find the indx of the goiven string in the arr
+	int indx;
+	for(int i=0;i<arr.size();i++)
+	{
+		if(arr[i]==str)
+		{
+			indx=i;
+			break;
+		}
+	}
+	//print the ones greater than given string
+	for(int i=indx+1; i<arr.size();i++)
+	 cout<<arr[i]<<endl;
+
+}
+
+int main() {
+	//taking the input
+	string str; 
+	cin>>str; 
+	//sari permutations ko store krne ke liye
+	vector <string> arr;
+	//call the recursive function
+	rearrange(str, 0, str.length(), "", arr);
+	//printing the ans
+	print(arr, str);
+	return 0;
+}
