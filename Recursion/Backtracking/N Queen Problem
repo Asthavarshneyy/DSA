@@ -1,0 +1,112 @@
+/*Problem Statement:
+Take as input N, the size of a chess board. We are asked to place N number of queens in it, so that no queen can kill other.
+
+a. Write a recursive function which returns the count of different distinct ways the queens can be placed across the board. Print the value returned.
+
+b. Write a recursive function which prints all valid configurations (void is the return type for function).
+
+Input Format
+Enter the number N(Size of the chessboard)
+
+Constraints
+None
+
+Output Format
+Display the number of possible ways of arranging N queens and print all the possible arrangements in a space separated manner
+
+Sample Input
+4
+Sample Output
+{1-2} {2-4} {3-1} {4-3}  {1-3} {2-1} {3-4} {4-2}
+2*/
+
+
+Soltuion:
+#include<bits/stdc++.h>
+using namespace std;
+
+bool issafe(int grid[100][100], int N, int i, int j)
+{
+	//checking if the current pos i, j is safe
+	//check if another Q already exists in the same column
+	for(int k=0;k<N;k++)
+	 if(grid[k][j]==1)
+	  return false;
+	//check in upper left diagonal
+	for(int x=i,y=j; x>=0 && y>=0;x--, y--)
+	 if(grid[x][y]==1)
+	  return false;
+	//check in lower left diagonal
+	for(int x=i,y=j; x<N && y>=0; x++, y--)
+	 if(grid[x][y]==1)
+	  return false;
+	//check in upper right diagonal
+	for(int x=i,y=j; x>=0 && y<N; x--,y++)
+	 if(grid[x][y]==1)
+	  return false;
+	//check in lower right diagonal
+	for(int x=i,y=j; x<N && y<N; x++,y++)
+	 if(grid[x][y]==1)
+	  return false;
+	//agr abhi tk false ni hu mtlb safe h
+	return true;
+}
+
+void print(int grid[100][100], int N)
+{
+	//printing one set of ans
+	for(int i=0;i<N;i++)
+	{
+		for(int j=0;j<N;j++)
+		{
+			if(grid[i][j]==1)
+			 cout<<"{"<<i+1<<"-"<<j+1<<"} ";
+		}
+	}
+	cout<<" ";
+}
+
+bool place(int grid[100][100], int N, int i, int &count)
+{
+	//base case
+	//when i becomes more than allowed column value-> stop ans print the grid for your ans
+	if(i==N)
+	{
+		count++;
+		print(grid, N);
+		//return true;
+	}
+	//recursive function
+	//if current pos is safe-> 2. fix a Q here and move to next row 1. continue checking for next cell
+	for(int j=0;j<N;j++)
+	{
+		if(issafe(grid,N , i, j))
+	    {
+		  grid[i][j]=1;
+		  if(place(grid, N, i+1, count))
+		   return true;
+		  //backtrack
+		  grid[i][j]=0;
+	    }
+	}
+	return false;
+}
+
+int main() {
+	int N;
+	cin>>N;
+	//to count number of possible answers
+	int count=0;
+	//make the grid
+	int grid[100][100];
+	for(int i=0;i<N;i++)
+	 for(int j=0;j<N;j++)
+	  grid[i][j]=0;
+	//call the recursive function
+	bool solve=place(grid, N, 0,count);
+	if(count!=0)
+	 cout<<"\n"<<count;
+	else
+	 cout<<count;
+	return 0;
+}
