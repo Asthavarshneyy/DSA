@@ -1,0 +1,68 @@
+/*Problem statement:
+Given a string containing duplicates, print all its distinct permutations such that there are no duplicate permutations and all permutations are printed in a lexicographic order.
+
+Input Format
+The first and only line of the test case contains the input string.
+
+Constraints
+Length of the string <= 8
+
+Output Format
+Print all the distinct permutations in a lexicographic order such that each permutation is in a new line. Note that there should not be any duplicate permutations.
+
+Sample Input
+ABA
+Sample Output
+AAB
+ABA
+BAA
+Explanation
+The possible permutations for the given string are { "AAB" , "AAB" , "ABA" , "BAA" } . We skip the repeating "AAB" permutation and only print it in once. Also we print the final output in lexicographical order.
+*/
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std; 
+
+void print(set <string> &mp)
+{
+	//printing the values
+	for(auto x: mp)
+	{
+		cout<<x<<endl;
+	}
+	
+}
+
+void permute(string str, int strt, int end, set <string> &mp)
+{
+	//base case
+	//when strt indx points to null value
+	if(str[strt]=='\0')
+    {
+		mp.insert(str);
+        return;
+	}
+	
+	//recursive function
+	//saving the current indx
+	int indx=strt;
+	for(int i=strt;i<end;i++)
+	{
+		swap(str[indx], str[i]);
+		permute(str, strt+1, end, mp);
+	}
+}
+
+int main() {
+	//take input of the string
+	string str;
+	cin>>str; 
+	//using ordered maps for removing the possibility of duplicates and storing values in ascending order
+	set <string> mp;
+	//calling the recursive function
+	permute(str, 0, str.length(), mp);
+	//print the final output
+	print(mp);
+	return 0;
+}
