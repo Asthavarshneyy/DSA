@@ -1,0 +1,56 @@
+/*Problem statement:
+Google Tower of Hanoi.
+
+Using a helper stick (peg), shift all rings from peg A to peg B using peg C. All rings are initally placed in ascending order, smallest being on top.
+
+No bigger ring can be placed over a smaller ring.
+
+a. Write a recursive function which prints the steps required to solve the tower of Hanoi problem for N discs.
+
+b. Write a recursive function which returns number of steps required to solve the tower of Hanoi problem for N discs.
+
+Let T1 be the Source Tower, T2 be the Destination Tower and T3 be the Auxillary Tower.
+
+Input Format
+Enter the number of discs
+
+Constraints
+None
+
+Output Format
+Display the steps required to solve the tower and also print the total number of steps required
+
+Sample Input
+2
+Sample Output
+Move 1th disc from T1 to T3
+Move 2th disc from T1 to T2
+Move 1th disc from T3 to T2
+3*/
+
+
+Solution:
+#include <bits/stdc++.h>
+using namespace std;
+
+void steps(int N, int &count, int src, int dest, int aux)
+{
+    //base case
+    if(N==0)
+     return;
+
+    //recursive function
+    steps(N-1, count, src, aux, dest);
+    cout<<"Move "<<N<<"th disc from T"<<src<<" to T"<<dest<<endl;
+    count++;
+    steps(N-1, count, aux, dest, src);
+}
+
+int main()
+{
+    int N; 
+    cin>>N;
+    int count=0;
+    steps(N, count, 1,2,3);   
+    cout<<count;
+}
