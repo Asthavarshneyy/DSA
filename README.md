@@ -9,6 +9,9 @@
    <li>Rat in a Maze
    <li> Rat chases its chesse 
    <li> N_Queen Problem
+   <li> Sudoku Solver
+   <li> Tricky Permutations
+   <li> Dictionary Order
   </ol>
   <li> Subsets
   <ol>
