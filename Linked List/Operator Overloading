@@ -1,0 +1,71 @@
+/*Overloading the operator '<<' to take input for the linkedlist till its possible and operator '>>' to output the entire linked list*/
+
+Solution:
+
+#include <bits/stdc++.h>
+using namespace std;
+
+//node class
+class Node
+{
+    public:
+    int data;
+    Node *next;
+    //constructor
+    Node(int data)
+    {
+        this->data=data;
+        next=NULL;
+    }
+};
+
+//printing the entire linked list
+void print(Node *head)
+{
+    while(head!=NULL)
+    {
+        cout<<head->data <<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+
+//to take input
+Node* input()
+{
+    int d;
+    cin>>d;
+    Node *head=new Node(d);
+    Node *tail=head;
+    while(cin>>d)
+    {
+        tail->next= new Node(d);
+        tail=tail->next;
+    }
+    return head;
+}
+
+//overloading the  >> operator
+ostream& operator>>(ostream &os, Node *&head)
+{
+    print(head);
+    return os;
+}
+
+//overloading the << operator
+istream& operator<<(istream &is, Node *&head)
+{
+    head=input();
+    return is;
+}
+
+int main() {
+	// your code goes here
+    Node *head;
+    cin>>head; //will show error now as it is not possible to take input like this
+    cin<<head; //overloaded operator; will take inout as we coded
+    cout<<head; // will work as default; output the address of head node
+    cout>>head; //overloaded operator; will give the output as we coded
+	return 0;
+}
+
