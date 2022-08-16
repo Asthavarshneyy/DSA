@@ -15,7 +15,10 @@
   </ol>
   <li> Subsets
   <ol>
-   <li> 
+   <li> Tower of Hanoi
+   <li> Merge Sort
+   <li> Quicksort
+   <li> Generate Paranthesis
   </ol>
  </ol>
 <li> Linked List Problems:
