@@ -1,0 +1,110 @@
+/*Problem statement
+Given a singly linked list delete all nodes which are having a consecutive greater value node. 
+
+Input Format
+First line contains N, the number of nodes in the linked list.
+Next line contains the N nodes data .
+
+Constraints
+0<N<10^9
+
+Output Format
+Print the linked list after deleting the nodes which are having a greater value on right side.
+
+Sample Input
+8
+12 15 10 11 5 6 2 3
+Sample Output
+15 11 6 3 */
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std; 
+
+class Node
+{
+	public:
+	int data;
+	Node *next;
+	//constructor
+	Node(int data)
+	{
+		this->data=data;
+		next=NULL;
+	}
+};
+
+void delfirst(Node *&head, Node *&prev, Node *&first, Node *&second)
+{
+	//if the node to be deleted is the first node
+	Node *temp=first;
+	first=second;
+	second=second->next;
+	head=first;
+	prev->next=first;
+	delete temp;
+}
+
+void delany(Node *&prev, Node *&first, Node *&second)
+{
+	//to delete the curr node which is not th first node
+	Node *temp=first;
+	first=second; 
+	prev->next=first;
+	second=second->next;
+	delete temp;
+}
+
+void Delete(Node *&head)
+{
+	Node *first=head; 
+	Node *second= head->next;
+	Node *prev=new Node(-1);
+	prev->next=first;
+	while(second!=NULL)
+	{
+		if(first->data<second->data)
+		{
+			if(head==first) //when the node to be deleted is the first node
+			 delfirst(head, prev, first, second);
+			else //in the case of any other node
+			 delany(prev, first, second);
+		}
+		else //if first ka data is > second ka data
+		{
+			prev=prev->next;
+			first=first->next;
+			second=second->next;
+		}
+	}
+}
+
+void print(Node *head)
+{
+	//printing the list
+	while(head!=NULL)
+	{
+		cout<<head->data<<" ";
+		head=head->next;
+	}
+}
+
+int main () {
+	int N; //number of nodes
+	cin>>N;
+	int d;
+	cin>>d;
+	Node *head=new Node(d);
+	Node *temp=head;
+	for(int i=2;i<=N;i++)
+	{
+		cin>>d; 
+		temp->next=new Node(d);
+		temp=temp->next;
+	}
+	//calling the delete function
+	Delete(head);
+	//calling the print function
+	print(head);
+	return 0;
+}
