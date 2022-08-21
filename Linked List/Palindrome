@@ -1,0 +1,85 @@
+/*Problem statement:
+Check if a linked list is a palindrome.( Boolean return type )
+
+Input Format
+Add N space separated elements in the list
+
+Constraints
+None
+
+Output Format
+Boolean answer( true or false)
+
+Sample Input
+5
+1 2 3 6 8
+Sample Output
+false*/
+
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std; 
+
+class Node
+{
+	public:
+	int data;
+	Node *next;
+	//constructor
+	Node(int data)
+	{
+		this->data=data;
+		next=NULL;
+	}
+};
+
+bool check(Node *head)
+{
+	//using stack data structure
+	stack <int> s;
+	Node *temp=head;
+	//push all the elements of the list into the stack from left to right
+	while(temp!=NULL)
+	{
+		s.push(temp->data);
+		temp=temp->next;
+	}
+	//At this point, the rightmost element is on top
+	//Taking a ptr from the leftmost corner
+	temp=head;
+	while(!s.empty() && temp!=NULL)
+	{
+		//if leftmost and rightmost curr element don;t match return false
+		if(temp->data!=s.top())
+		 return false;
+		//otherwise pop the top element and move the ptr frwrd
+		s.pop();
+		temp=temp->next;
+	}
+	//if till now nothing happens then return true
+	return true;
+}
+
+int main() {
+	//input
+	int n;
+	cin>>n;
+	Node *head=new Node(-1);
+	Node *temp=head;
+	int d;
+	while(n!=0)
+	{
+		cin>>d;
+		temp->next=new Node(d);
+		temp=temp->next;
+		n--;
+	}
+	head=head->next;
+	//function call
+	if(check(head))
+	 cout<<"true";
+	else
+	 cout<<"false";
+	return 0;
+}
