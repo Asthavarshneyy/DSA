@@ -1,0 +1,126 @@
+/*Problem Statement:
+Arrange elements in a Linked List such that all even numbers are placed after odd numbers.
+
+Input Format
+Enter N space separated Elements
+
+Constraints
+None
+
+Output Format
+Linked list with all the odd numbers before even numbers
+
+Sample Input
+5
+1 2 2 2 1
+Sample Output
+1 1 2 2 2*/
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node
+{
+	public:
+	int data;
+	Node *next;
+	//constructor
+	Node(int data)
+	{
+		this->data=data;
+		next=NULL;
+	}
+};
+
+void delfirst(Node *&curr, Node *&prev, Node *&head)
+{
+	//to delete the first node
+	Node *temp=curr; 
+	curr=curr->next;
+	prev->next=prev->next->next;
+	delete temp;
+	head=head->next;
+}
+
+void delany(Node *&curr, Node *&prev)
+{
+	//to delete any other node
+	Node *temp=curr; 
+	curr=curr->next;
+	prev->next=prev->next->next;
+	delete temp;
+}
+
+void insert(Node *&curr, int data)
+{
+	//inserting node at the end of the list
+	curr->next=new Node(data);
+	curr=curr->next;
+}
+
+void print(Node *head)
+{
+	//printing the list
+	while(head!=NULL)
+	{
+		cout<<head->data<<" ";
+		head=head->next;
+	}
+	cout<<endl;
+}
+
+void sort(Node *&head1)
+{
+	//taking one prev and one curr ptr of the original list
+	Node *temp1=head1;
+	Node *prev=new Node(-1);
+	prev->next=temp1;
+	//making a new list to store even elements
+	Node *head2=new Node(-1);
+	Node *temp2=head2;
+	//cut pasting all the even elements
+	while(temp1!=NULL)
+	{
+		if(temp1->data%2==0)
+		{
+			insert(temp2, temp1->data);
+			if(head1==temp1)
+			 delfirst(temp1, prev, head1);
+			else
+			 delany(temp1, prev);
+		}
+		else
+		{
+			prev=prev->next;
+			temp1=temp1->next;
+		}
+	}
+	//cut pasting even elements from new list to the end of original list
+	head2=head2->next;
+	while(head2!=NULL)
+	{
+		insert(prev, head2->data);
+		head2=head2->next;
+	}
+}
+
+
+int main() {
+	//input
+	int n; 
+	cin>>n;
+	Node *head=new Node(-1);
+	Node *temp=head;
+	int d;
+	while(n--!=0)
+	{
+		cin>>d;
+		insert(temp, d);
+	}
+	head=head->next;
+	//function call
+	sort(head);
+	print(head);
+	return 0;
+}
