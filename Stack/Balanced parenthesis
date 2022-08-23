@@ -1,0 +1,55 @@
+/*Problem statement:
+You are given a string of brackets i.e. '{', '}' , '(' , ')', '[' , ']' . You have to check whether the sequence of parenthesis is balanced or not.
+For example, "(())", "(())()" are balanced and "())(", "(()))" are not.
+
+Input Format
+A string of '(' , ')' , '{' , '}' and '[' , ']' .
+
+Constraints
+1<=|S|<=10^5
+
+Output Format
+Print "Yes" if the brackets are balanced and "No" if not balanced.
+
+Sample Input
+(())
+Sample Output
+Yes
+Explanation
+(()) is a balanced string.*/
+
+
+
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std; 
+
+int main() {
+	stack <char> s;
+	string bracket;
+  //using getline as we don't know the size of input
+	getline(cin,bracket);
+  //going through every element o the input array
+	for(auto e: bracket)
+	{
+    //ignoring all the spaces
+		if(e==' ')
+		 continue;
+    //if stack is empty just push the curr element
+		if(s.empty())
+		 s.push(e);
+    //if topmost element is pair of curr element then pop it
+		else if((s.top()=='(' && e==')')|| (s.top()=='{' && e=='}') || (s.top()=='[' && e==']'))
+		 s.pop();
+    //otherwise add it into the stack
+		else
+		 s.push(e);
+	}
+  //at this point if anything is still left in the stack, then it means it is not balanced
+	if(s.empty())
+	 cout<<"Yes";
+	else 
+	 cout<<"No";
+	return 0;
+}
