@@ -1,0 +1,87 @@
+/*Problem statement:
+Reverse a Stack using Recursion. Do not use any extra stack.
+
+Input Format
+First line contains an integer N (size of the stack).
+Next N lines follow each containing an integer to be stored in the stack where the last integer is at the top of the stack.
+
+Constraints
+1 <= N <= 10^4
+
+Output Format
+Output the values of the reversed stack with each value in one line each.
+
+Sample Input
+3
+3
+2
+1
+Sample Output
+3
+2
+1
+Explanation
+Original Stack = [ 3 , 2 , 1 ] <-TOP
+Reverse Stack = [ 1 , 2 , 3 ] <-TOP*/
+
+
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std;
+ 
+void insert(stack <int> &s, int x)
+{
+    //base case
+    if(s.empty())
+ 	 s.push(x);
+    //recursive function
+	else
+	{
+		int a=s.top();
+        s.pop();
+        insert(s,x);
+        s.push(a);
+	}
+    
+}
+ 
+void reverse(stack <int> &s)
+{
+    //base case
+    if(s.empty())
+ 	return;
+    //recursive function
+    int x=s.top();
+    s.pop();
+    reverse(s);
+    insert(s, x);
+}
+ 
+void print(stack <int> s)
+{
+	//printing the stack 
+    while(!s.empty())
+    {
+        cout<<s.top()<<endl;
+        s.pop();
+    }
+}
+ 
+int main() {
+	//stack input
+    stack <int> s;
+    int n;
+    cin>>n;
+    for(int i=1;i<=n;i++)
+    {
+        int d;
+        cin>>d;
+        s.push(d);
+    }
+    //function call
+    reverse(s);
+    print(s);
+    return 0;
+}
+
