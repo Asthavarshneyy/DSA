@@ -1,0 +1,78 @@
+/*Problem Statement:
+Given a Binary Tree Print all the leaf nodes.
+
+Input Format
+Level order input of the binary tree
+
+Constraints
+Total no of nodes <1000
+
+Output Format
+All leaf nodes from left to right in single line
+
+Sample Input
+1
+2 3
+4 5
+6 7
+-1 -1
+-1 -1
+-1 -1
+-1 -1
+Sample Output
+4 5 6 7*/
+
+Solution:
+#include<bits/stdc++.h>
+using namespace std;
+ 
+class node{
+	public:
+    int data;
+    node *left;
+    node *right;
+    //constructor
+    node(int data)
+    {
+        this->data=data;
+        left=NULL;
+        right=NULL;
+    }
+};
+ 
+void buildtree(node *&root)
+{
+	int d;
+  //taking two different left and right is important as it will be easy to differentiate b/w true and false values for each node
+  //I tried making it bool but it didn't work
+	string left;
+	string right;
+	cin>>d;
+	root=new node(d);
+	cin>>left;
+	if(left=="true")
+	 buildtree(root->left);
+	cin>>right;
+	if(right=="true")
+	 buildtree(root->right);
+}
+
+void sum(node *root, int &ans)
+{
+	if(root==NULL)
+	 return;
+	ans+=root->data;
+	sum(root->left,ans);
+	sum(root->right,ans);
+}
+ 
+int main() {
+	node *root;
+	buildtree(root);
+	int ans=0;
+	sum(root, ans);
+	cout<<ans;
+    return 0;
+}
+
+
