@@ -1,0 +1,99 @@
+/*Problem statement:
+Given a binary tree. Print the level order traversal, make sure each level start at a new line.
+
+Input Format
+Enter the values of all the nodes in the binary tree in pre-order format where true suggest the node exists and false suggests it is NULL
+
+Constraints
+None
+
+Output Format
+Print the level order in which the different levels are in different lines, all the values should be in a space separated manner
+
+Sample Input
+10 true 20 true 40 false false true 50 false false true 30 true 60 false false true 73 false false
+Sample Output
+10 
+20 30 
+40 50 60 73*/
+
+
+Solution:
+ #include<bits/stdc++.h>
+using namespace std;
+
+class node{
+	public:
+	int data;
+	node *left;
+	node *right;
+	//constructor
+	node(int data)
+	{
+		this->data=data;
+		left=NULL;
+		right=NULL;
+	}
+};
+
+void buildtree(node *&root)
+{
+  //to build the BT
+	int d;
+	string left;
+	string right;
+	cin>>d;
+	root=new node(d);
+	cin>>left;
+	if(left=="true")
+	 buildtree(root->left);
+    cin>>right;
+	if(right=="true")
+	 buildtree(root->right);
+}
+
+node* takeinput()
+{
+  //a separate method to take the input
+	node *root;
+  //calling the buildtree function
+	buildtree(root);
+	return root;
+}
+
+void printlevel(node *root)
+{
+  //making a queue to store the node data
+	queue <node*> q;
+	q.push(root);
+  //pushing null at the end of every level
+	q.push(NULL);
+	while(!q.empty())
+	{
+		if(q.front()==NULL)
+		{
+			cout<<endl;
+			q.pop();
+      //this check step is imp else it will be an infinite loop
+			if(!q.empty())
+			 q.push(NULL);
+		}
+    else
+        {
+            //finally printing the node data
+            cout<<q.front()->data<<" ";
+		        if(q.front()->left)
+		          q.push(q.front()->left);
+		        if(q.front()->right)
+		          q.push(q.front()->right);
+		        q.pop();
+        }
+	}
+	return;
+}
+
+int main() {
+	node *root=takeinput();
+	printlevel(root);
+	return 0;
+}
