@@ -1,0 +1,113 @@
+/*Problem Statement
+Given preorder and inorder create the tree
+
+Input Format
+Enter the size of the preorder array N then add N more elements and store in the array denoting the preorder traversal of the tree. Then enter the size of the inorder array M and add M more elements and store the inorder traversal of the array.
+
+Constraints
+1 <= N, M <= 10^4
+
+Output Format
+Display the tree using a modified preorder function. For each node , first print its left child's data , then the data of the root itself , then the data of its right child. Do this for each node in a new line in preorder manner. If one of the children does not exist print END in its place. Refer to the sample testcase.
+
+Sample Input
+3
+1 2 3
+3
+3 2 1
+Sample Output
+2 => 1 <= END
+3 => 2 <= END
+END => 3 <= END
+Explanation
+The above tree looks like
+
+         1
+       /
+     2
+   /
+ 3*/
+ 
+ 
+ Solution:
+ #include<bits/stdc++.h>
+using namespace std;
+
+class node{
+	public:
+	int data;
+	node* left;
+	node* right;
+	//constructor
+	node(int data)
+	{
+		this->data=data;
+		left=NULL;
+		right=NULL;
+	}
+};
+
+int search(int io[], int start, int end, int num)
+{
+	//finding the indx of the curr element of PO in IO
+	for(int i=start; i<=end;i++)
+	{
+		if(io[i]==num)
+	     return i;
+	}
+	return -1;
+}
+
+node* buildtree(int io[], int po[], int start, int end)
+{
+	static int i=0;
+	//if no element is there in the triangle
+	if(start > end)
+	 return NULL;
+	//root ka data is equal to the curr element of PO array
+	node* root=new node(po[i++]);
+	//checking if there are any children left
+	if(start==end)
+	 return root;
+	//finding the indx of the curr element of PO in IO
+	int j=search(io, start, end, root->data);
+	root->left=buildtree(io, po, start, j-1);
+	root->right=buildtree(io, po, j+1, end);
+	return root;
+}
+
+void print(node *root)
+{
+	if(root==NULL)
+	 return;
+
+	if(root->left)
+	 cout<<root->left->data;
+	else
+	 cout<<"END";
+	cout<<" => "<<root->data<<" <= ";
+	if(root->right)
+	 cout<<root->right->data;
+	else
+	 cout<<"END";
+	cout<<endl;
+	print(root->left);
+	print(root->right);
+}
+
+int main() {
+	int n;
+	cin>>n;
+	int po[n];
+	for(int i=0;i<n;i++)
+	 cin>>po[i];
+	int m;
+	cin>>m;
+	int io[m];
+	for(int i=0;i<m;i++)
+	 cin>>io[i];
+	//function call
+	node *root=buildtree(io, po, 0, m-1);
+	print(root);
+	return 0;
+}
