@@ -1,0 +1,83 @@
+/*Problem Statement:
+Given two trees check if they are structurally identically. Structurally identical trees are trees that have same structure. They may or may not have the same data though.
+
+Input Format
+Enter the values of all the nodes in the binary tree in pre-order format where true suggest the node exists and false suggests it is NULL
+
+Constraints
+1 <= N <= 10^4
+
+Output Format
+Display the Boolean result
+
+Sample Input
+10 true 20 true 40 false false true 50 false false true 30 true 60 false false true 73 false false
+10 true 20 true 40 false false true 50 false false true 30 true 60 false false true 73 false false
+Sample Output
+true
+Explanation
+The given two trees have the exact same structure and hence we print true.*/
+
+
+Solution:
+  #include<bits/stdc++.h>
+using namespace std;
+
+class node{
+	public: 
+	int data;
+	node *left;
+	node *right;
+	//constructor
+	node(int data)
+	{
+		this->data=data;
+		left=NULL;
+		right=NULL;
+
+	}
+};
+
+void buildtree(node *&root)
+{
+	int d;
+	string left, right;
+	cin>>d;
+	root=new node(d);
+	cin>>left;
+	if(left=="true")
+	 buildtree(root->left);
+	cin>>right;
+	if(right=="true")
+	 buildtree(root->right);
+}
+
+node* takeinput()
+{
+	node *root;
+	buildtree(root);
+	return root;
+}
+
+bool structure(node *root1, node *root2)
+{
+	//if both roots become null then the tree is identical till now
+	if(root1==NULL && root2==NULL)
+	 return true;
+	//but if only one of them becomes null, it is not same anymore so return false
+	if(root1==NULL || root2==NULL)
+	 return false;
+	//else judge for both left and right roots
+	return (structure(root1->left, root2->left) && structure(root1->right, root2->right));	 
+}
+
+int main() {
+	node *root1=takeinput();
+	node *root2=takeinput();
+	//function call for the main task
+	if(structure(root1, root2))
+	 cout<<"true";
+	else 
+	 cout<<"false";
+	return 0;
+}
